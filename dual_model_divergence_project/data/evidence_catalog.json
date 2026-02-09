@@ -1,0 +1,27 @@
+[
+  {
+    "subject": "X技术",
+    "year": "2018",
+    "source": "CNIPA sample registry",
+    "tier": "L1"
+  },
+  {
+    "subject": "ExampleTech",
+    "year": "2021",
+    "source": "Industry whitepaper",
+    "tier": "L2"
+  },
+  {
+    "subject": "ExampleTech",
+    "year": "2021",
+    "source": "Vendor technical brief",
+    "tier": "L2"
+  },
+  {
+    "subject": "CommunityCase",
+    "year": "2022",
+    "source": "Community wiki page",
+    "tier": "L3"
+  }
+]
+

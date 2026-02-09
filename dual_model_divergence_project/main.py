@@ -16,7 +16,14 @@ def run_pipeline(
     mock_mode: bool = False,
     use_cache: bool = True,
     enable_evidence: bool = False,
+    allow_mock_fallback: bool = False,
 ) -> str:
+    question = (question or "").strip()
+    if not question:
+        raise ValueError("question must not be empty.")
+    if len(question) > 5000:
+        raise ValueError("question is too long; max length is 5000 characters.")
+
     db = DatabaseManager(db_path)
     db.init_db()
 
@@ -28,6 +35,7 @@ def run_pipeline(
         query_id=query_id,
         use_cache=use_cache,
         mock_mode=mock_mode,
+        allow_mock_fallback=allow_mock_fallback,
     )
 
     gpt_answer = answers["GPT"]
@@ -57,6 +65,9 @@ def run_pipeline(
                 evidence_text=info.get("evidence_text", ""),
                 source=info.get("source", ""),
                 verdict=info.get("verdict", "unknown"),
+                source_tier=info.get("source_tier", ""),
+                auto_applied=1 if info.get("auto_applied", False) else 0,
+                confidence=float(info.get("confidence", 0.0)),
             )
 
     final_answer = generate_fused_answer(
@@ -84,6 +95,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="SQLite database path.",
     )
     parser.add_argument("--mock", action="store_true", help="Use mock answers instead of API calls.")
+    parser.add_argument(
+        "--allow-mock-fallback",
+        action="store_true",
+        help="Allow fallback to mock responses when live API calls fail.",
+    )
     parser.add_argument("--no-cache", action="store_true", help="Disable cache lookup.")
     parser.add_argument("--enable-evidence", action="store_true", help="Enable evidence retrieval module.")
     return parser
@@ -98,10 +114,10 @@ def main():
         mock_mode=args.mock,
         use_cache=not args.no_cache,
         enable_evidence=args.enable_evidence,
+        allow_mock_fallback=args.allow_mock_fallback,
     )
     print(result)
 
 
 if __name__ == "__main__":
     main()
-

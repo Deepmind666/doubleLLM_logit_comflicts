@@ -58,3 +58,11 @@
 - `dual_model_divergence_project/tests/test_basic_flow.py`  
 - `dual_model_divergence_project/README.md`  
 - `dual_model_divergence_project/requirements.txt`
+
+## H. 阶段2增强与测试
+
+- `dual_model_divergence_project/modules/evidence_retriever.py`  
+- `dual_model_divergence_project/data/evidence_catalog.json`  
+- `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`  
+- `dual_model_divergence_project/tests/TEST_CASES.md`  
+- `dual_model_divergence_project/run_test_cases.py`

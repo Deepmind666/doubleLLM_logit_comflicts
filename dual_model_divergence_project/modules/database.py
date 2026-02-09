@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional
 
@@ -8,10 +9,23 @@ class DatabaseManager:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
+    @contextmanager
     def _connect(self):
         conn = sqlite3.connect(str(self.db_path))
         conn.execute("PRAGMA foreign_keys = ON")
-        return conn
+        conn.execute("PRAGMA journal_mode = WAL")
+        conn.execute("PRAGMA busy_timeout = 5000")
+        try:
+            yield conn
+            conn.commit()
+        finally:
+            conn.close()
+
+    @staticmethod
+    def _has_column(conn: sqlite3.Connection, table: str, column: str) -> bool:
+        rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
+        names = {r[1] for r in rows}
+        return column in names
 
     def init_db(self):
         with self._connect() as conn:
@@ -68,11 +82,21 @@ class DatabaseManager:
                     evidence_text TEXT,
                     source TEXT,
                     verdict TEXT,
+                    source_tier TEXT,
+                    auto_applied INTEGER DEFAULT 0,
+                    confidence REAL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY(query_id) REFERENCES queries(id) ON DELETE CASCADE
                 );
                 """
             )
+            # Lightweight migration path for existing databases.
+            if not self._has_column(conn, "evidence", "source_tier"):
+                conn.execute("ALTER TABLE evidence ADD COLUMN source_tier TEXT")
+            if not self._has_column(conn, "evidence", "auto_applied"):
+                conn.execute("ALTER TABLE evidence ADD COLUMN auto_applied INTEGER DEFAULT 0")
+            if not self._has_column(conn, "evidence", "confidence"):
+                conn.execute("ALTER TABLE evidence ADD COLUMN confidence REAL")
 
     def save_query(self, question_text: str) -> int:
         with self._connect() as conn:
@@ -137,13 +161,24 @@ class DatabaseManager:
                 (query_id, answer_text, notes),
             )
 
-    def save_evidence(self, query_id: int, diff_id: str, evidence_text: str, source: str, verdict: str):
+    def save_evidence(
+        self,
+        query_id: int,
+        diff_id: str,
+        evidence_text: str,
+        source: str,
+        verdict: str,
+        source_tier: str = "",
+        auto_applied: int = 0,
+        confidence: float = 0.0,
+    ):
         with self._connect() as conn:
             conn.execute(
                 """
-                INSERT INTO evidence(query_id, diff_id, evidence_text, source, verdict)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO evidence(
+                    query_id, diff_id, evidence_text, source, verdict, source_tier, auto_applied, confidence
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                (query_id, diff_id, evidence_text, source, verdict),
+                (query_id, diff_id, evidence_text, source, verdict, source_tier, auto_applied, confidence),
             )
-

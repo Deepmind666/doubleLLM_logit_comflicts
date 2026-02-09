@@ -283,3 +283,48 @@
 - `dual_model_divergence_project/tests/test_basic_flow.py`
 - `dual_model_divergence_project/README.md`
 - `dual_model_divergence_project/requirements.txt`
+
+---
+
+## 2026-02-10 00:12:00 +08:00 | 阶段：漏洞自查修复 + 阶段2证据裁决增强
+
+### 本次完成
+- 完成工程漏洞自查并修复高风险问题：
+  1) 禁止默认静默回退到 mock（需显式 `--allow-mock-fallback`）  
+  2) 增加 API 调用重试与超时  
+  3) SQLite 连接改为上下文强关闭，修复 Windows 文件锁问题  
+  4) 增加 evidence 表字段迁移（`source_tier/auto_applied/confidence`）
+- 进入下一阶段（证据裁决增强）并落地：
+  1) 实现证据源分级门控（L1/L2/L3）  
+  2) 实现自动裁决规则：L1或双独立L2才自动定论  
+  3) 低等级或证据不足时默认保留多解
+- 新增并执行测试用例（unittest）：
+  - L1证据自动裁决
+  - L3证据不自动裁决
+  - API失败严格模式抛错
+  - 全量回归通过
+
+### 风险与修正动作
+- 风险：历史缓存可能影响演示输出判读。
+- 修正：测试和演示命令中显式使用 `--no-cache`。
+- 风险：pytest 在当前环境不可用。
+- 修正：提供 `unittest` 与 `run_test_cases.py` 作为无依赖测试入口。
+
+### 文件评审清单
+- 安全性：已消除静默降级导致的错误掩盖风险。
+- 稳定性：数据库连接回收稳定，测试通过无锁文件残留。
+- 可验证性：阶段2关键门控规则已可自动化测试。
+- 可交接性：新增测试说明文档与一键测试脚本。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/modules/model_invoker.py`
+- `dual_model_divergence_project/modules/database.py`
+- `dual_model_divergence_project/modules/divergence_detector.py`
+- `dual_model_divergence_project/modules/evidence_retriever.py`
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/data/evidence_catalog.json`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`
+- `dual_model_divergence_project/tests/TEST_CASES.md`
+- `dual_model_divergence_project/run_test_cases.py`
+- `dual_model_divergence_project/README.md`

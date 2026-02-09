@@ -11,6 +11,7 @@ def test_divergence_detector_year_conflict():
     diff = compare_answers(a, b)
     assert diff["conflicts"], "Expected at least one conflict for year mismatch."
     assert diff["conflicts"][0]["type"] == "numeric_difference"
+    assert "X技术" in diff["conflicts"][0]["conflict_id"]
 
 
 def test_pipeline_mock_mode(tmp_path: Path):
