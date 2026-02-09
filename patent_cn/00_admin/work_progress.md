@@ -375,3 +375,47 @@
 - `dual_model_divergence_project/run_test_cases.py`
 - `dual_model_divergence_project/README.md`
 - `patent_cn/00_admin/work_progress.md`
+
+---
+
+## 2026-02-10 00:54:30 +08:00 | 阶段：真实样本分层评测落地（阶段4）
+
+### 本次完成
+- 新增“真实样本（非 mock 生成）”实验集，样本来源锚定 `patent_cn/01_prior_art/_raw_patent_meta.json` 的公开专利实体与年份信息。
+- 新增真实样本证据目录与分层评测脚本：
+  - `experiments/realworld_cases.json`（7个真实语料对场景）
+  - `experiments/realworld_evidence_catalog.json`（L1/L2/L3真实样本证据分层）
+  - `experiments/run_realworld_benchmark.py`（三层评测与误差分析）
+- 新增阶段3回归测试：
+  - `tests/test_stage3_realworld_benchmark_unittest.py`（验证脚本执行与报告落盘）
+- 将真实样本 benchmark 纳入一键回归：
+  - `run_test_cases.py` 增加 realworld unittest 与执行命令
+  - `README.md`、`tests/TEST_CASES.md` 同步更新
+- 实测结果：
+  - `python experiments/run_realworld_benchmark.py` 通过
+  - `python run_test_cases.py` 全通过
+  - `realworld_benchmark_report.md` 指标：`7/7` 场景通过，`33/33` 检查通过；L1/L2/L3 三层均 `100%`
+  - 冲突检测误差分析：`TP=6, FP=0, FN=0, F1=100%`
+
+### 风险与修正动作
+- 风险：真实样本仍为离线语料对评测，未覆盖在线 API 返回风格波动与供应商模型升级影响。
+- 修正：已保持脚本与数据集分离，后续可直接接入线上采样结果作为新增 case。
+- 风险：当前分歧类型评测仍以“年份数值冲突”为主，未覆盖语义矛盾/遗漏等复杂类型。
+- 修正：已在分层报告中显式输出层级结果，便于下一轮扩展到多类型冲突时做横向对比。
+
+### 文件评审清单
+- 完整性：真实样本数据、证据目录、脚本、测试、报告已闭环。
+- 可验证性：报告包含时间戳、层级指标、TP/FP/FN、分层失败清单。
+- 可复现性：一键命令 `python run_test_cases.py` 可复现实验结论。
+- 可交接性：文档已同步，后续同事可按案例文件直接扩展。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/experiments/realworld_cases.json`
+- `dual_model_divergence_project/experiments/realworld_evidence_catalog.json`
+- `dual_model_divergence_project/experiments/run_realworld_benchmark.py`
+- `dual_model_divergence_project/experiments/realworld_benchmark_report.md`
+- `dual_model_divergence_project/tests/test_stage3_realworld_benchmark_unittest.py`
+- `dual_model_divergence_project/run_test_cases.py`
+- `dual_model_divergence_project/README.md`
+- `dual_model_divergence_project/tests/TEST_CASES.md`
+- `patent_cn/00_admin/work_progress.md`

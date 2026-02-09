@@ -73,3 +73,11 @@
 - `dual_model_divergence_project/experiments/benchmark_cases.json`
 - `dual_model_divergence_project/experiments/run_benchmark.py`
 - `dual_model_divergence_project/experiments/benchmark_report.md`
+
+## J. 阶段4真实样本分层评测
+
+- `dual_model_divergence_project/experiments/realworld_cases.json`
+- `dual_model_divergence_project/experiments/realworld_evidence_catalog.json`
+- `dual_model_divergence_project/experiments/run_realworld_benchmark.py`
+- `dual_model_divergence_project/experiments/realworld_benchmark_report.md`
+- `dual_model_divergence_project/tests/test_stage3_realworld_benchmark_unittest.py`

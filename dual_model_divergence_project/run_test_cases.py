@@ -5,7 +5,9 @@ import sys
 CASES = [
     ["python", "-m", "unittest", "tests.test_basic_flow", "-v"],
     ["python", "-m", "unittest", "tests.test_stage2_cases_unittest", "-v"],
+    ["python", "-m", "unittest", "tests.test_stage3_realworld_benchmark_unittest", "-v"],
     ["python", "experiments/run_benchmark.py"],
+    ["python", "experiments/run_realworld_benchmark.py"],
 ]
 
 

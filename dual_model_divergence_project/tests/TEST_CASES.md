@@ -29,11 +29,14 @@ python -m unittest tests.test_stage2_cases_unittest -v
 - Command:
 ```bash
 python experiments/run_benchmark.py
+python experiments/run_realworld_benchmark.py
 ```
 - Expected:
 1. Benchmark cases pass.
-2. Report generated at `experiments/benchmark_report.md`.
-3. Report includes case-level pass/fail and aggregate metrics.
+2. Reports generated at:
+   - `experiments/benchmark_report.md`
+   - `experiments/realworld_benchmark_report.md`
+3. Realworld report includes layered metrics and error analysis.
 
 ## Case 4: One-shot full validation
 
@@ -44,4 +47,5 @@ python run_test_cases.py
 - Expected:
 1. Basic flow tests pass.
 2. Stage-2 tests pass.
-3. Benchmark experiment runs and writes report.
+3. Stage-3 realworld benchmark unittest passes.
+4. Both benchmark experiments run and write reports.

@@ -32,6 +32,7 @@ python main.py "your question" --allow-mock-fallback
 cd dual_model_divergence_project
 python -m unittest tests.test_basic_flow -v
 python -m unittest tests.test_stage2_cases_unittest -v
+python -m unittest tests.test_stage3_realworld_benchmark_unittest -v
 ```
 
 Or run bundled test runner:
@@ -46,9 +47,11 @@ Run benchmark experiment (generates metrics report):
 ```bash
 cd dual_model_divergence_project
 python experiments/run_benchmark.py
+python experiments/run_realworld_benchmark.py
 ```
 
 Output report: `dual_model_divergence_project/experiments/benchmark_report.md`
+Output report: `dual_model_divergence_project/experiments/realworld_benchmark_report.md`
 
 ## Environment Variables (for real API mode)
 

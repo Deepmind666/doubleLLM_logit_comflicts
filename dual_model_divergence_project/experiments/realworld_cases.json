@@ -1,0 +1,148 @@
+[
+  {
+    "id": "rw_l1_autodesk_choose_a",
+    "source_ref": "US12353469B1",
+    "tier_group": "L1",
+    "model_a_answer": "Autodesk patent filed in 2025. It verifies and cites language model outputs.",
+    "model_b_answer": "Autodesk patent filed in 2024. It verifies and cites language model outputs.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_Autodesk"
+      ],
+      "expected_verdicts": {
+        "year_conflict_Autodesk": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_Autodesk": true
+      },
+      "final_must_contain": [
+        "year_conflict_Autodesk",
+        "采用模型A结论"
+      ]
+    }
+  },
+  {
+    "id": "rw_l1_bitvore_choose_b",
+    "source_ref": "US20250077777A1",
+    "tier_group": "L1",
+    "model_a_answer": "Bitvore patent filed in 2024. It detects hallucination risk.",
+    "model_b_answer": "Bitvore patent filed in 2025. It detects hallucination risk.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_Bitvore"
+      ],
+      "expected_verdicts": {
+        "year_conflict_Bitvore": "B"
+      },
+      "expected_auto_applied": {
+        "year_conflict_Bitvore": true
+      },
+      "final_must_contain": [
+        "year_conflict_Bitvore",
+        "采用模型B结论"
+      ]
+    }
+  },
+  {
+    "id": "rw_l2_intuit_choose_a",
+    "source_ref": "WO2024254203A2",
+    "tier_group": "L2",
+    "model_a_answer": "Intuit patent filed in 2024. It describes creator and critic LLM teaming.",
+    "model_b_answer": "Intuit patent filed in 2025. It describes creator and critic LLM teaming.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_Intuit"
+      ],
+      "expected_verdicts": {
+        "year_conflict_Intuit": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_Intuit": true
+      },
+      "final_must_contain": [
+        "year_conflict_Intuit",
+        "采用模型A结论"
+      ]
+    }
+  },
+  {
+    "id": "rw_l2_single_source_remain_unknown",
+    "source_ref": "CN119493841A",
+    "tier_group": "L2",
+    "model_a_answer": "Bosch patent filed in 2024. It handles hallucinations in domain QA.",
+    "model_b_answer": "Bosch patent filed in 2025. It handles hallucinations in domain QA.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_Bosch"
+      ],
+      "expected_verdicts": {
+        "year_conflict_Bosch": "unknown"
+      },
+      "expected_auto_applied": {
+        "year_conflict_Bosch": false
+      },
+      "final_must_contain": [
+        "year_conflict_Bosch",
+        "暂无充分证据"
+      ]
+    }
+  },
+  {
+    "id": "rw_l3_keep_multi_solution",
+    "source_ref": "community_case",
+    "tier_group": "L3",
+    "model_a_answer": "CommunityCase patent filed in 2020. It is a public community summary.",
+    "model_b_answer": "CommunityCase patent filed in 2022. It is a public community summary.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_CommunityCase"
+      ],
+      "expected_verdicts": {
+        "year_conflict_CommunityCase": "unknown"
+      },
+      "expected_auto_applied": {
+        "year_conflict_CommunityCase": false
+      },
+      "final_must_contain": [
+        "year_conflict_CommunityCase",
+        "暂无充分证据"
+      ]
+    }
+  },
+  {
+    "id": "rw_none_no_conflict_control",
+    "source_ref": "US20250200392A1",
+    "tier_group": "NONE",
+    "model_a_answer": "Cx360 patent filed in 2025. It translates responses into formal logic.",
+    "model_b_answer": "Cx360 patent filed in 2025. It translates responses into formal logic.",
+    "expect": {
+      "conflict_ids": [],
+      "final_must_contain": [
+        "融合答案",
+        "Cx360 patent filed in 2025"
+      ]
+    }
+  },
+  {
+    "id": "rw_none_generic_year_conflict",
+    "source_ref": "timeline_summary",
+    "tier_group": "NONE",
+    "model_a_answer": "The evaluation timeline includes 2023 and 2024 milestones.",
+    "model_b_answer": "The evaluation timeline includes 2024 and 2025 milestones.",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_generic"
+      ],
+      "expected_verdicts": {
+        "year_conflict_generic": "unknown"
+      },
+      "expected_auto_applied": {
+        "year_conflict_generic": false
+      },
+      "final_must_contain": [
+        "year_conflict_generic",
+        "暂无充分证据"
+      ]
+    }
+  }
+]
