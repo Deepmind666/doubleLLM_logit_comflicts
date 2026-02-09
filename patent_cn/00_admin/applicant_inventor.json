@@ -1,0 +1,37 @@
+{
+  "project_code": "doubleLLM_logit_comflicts",
+  "application_type": "中国发明专利",
+  "title_cn": "双大模型逻辑分歧的自动检测与结构化解耦算法",
+  "applicant": {
+    "name": "【申请人名称】",
+    "address": "【申请人地址】",
+    "postal_code": "【邮编】",
+    "country_region": "【国家或地区】",
+    "organization_code": "【统一社会信用代码或身份证明】"
+  },
+  "inventors": [
+    {
+      "name": "【发明人1】",
+      "nationality": "【国籍】",
+      "id_type": "【证件类型】",
+      "id_number": "【证件号码】"
+    },
+    {
+      "name": "【发明人2】",
+      "nationality": "【国籍】",
+      "id_type": "【证件类型】",
+      "id_number": "【证件号码】"
+    }
+  ],
+  "contact": {
+    "name": "【联系人】",
+    "phone": "【联系电话】",
+    "email": "【联系邮箱】"
+  },
+  "filing_bundle_preference": {
+    "method_device_equipment_medium": true,
+    "evidence_retrieval_enabled_by_default": true
+  },
+  "note": "占位符用于后续 docx 替换，不阻断技术文档产出。"
+}
+

@@ -1,0 +1,222 @@
+[
+  {
+    "num": "US20250200392A1",
+    "url": "https://patents.google.com/patent/US20250200392A1/en",
+    "title": "Large language model verification",
+    "assignee": "Cx360, Inc.",
+    "pub_date": "2025-06-19",
+    "app_date": "",
+    "abstract": "Verifying large language model responses involves obtaining a query and its corresponding answer from a large language model. This conversational text is then fed into a second large language model, which translates the answer into first-order logic. The verification process uses an automated theorem prover. It checks the validity of this logic translation by determining the unsatisfiability of two scenarios: one where the negation of the logic translation and domain-specific logic formulas are combined, and another where the logic translation itself is combined with these formulas. Based on this analysis, the theorem prover ascertains whether the translated answer is valid, invalid, or neither. The final step is communicating this verification status through an appropriate output medium, such as a graphical user interface, a database, or a report, providing a structured and methodical approach to assessing the accuracy and reliability of language model responses.",
+    "claim1": "1 . A method comprising: converting a set of natural language text documents into a domain logic model, the domain logic model comprising a set of first-order logic formulas;",
+    "status": 200
+  },
+  {
+    "num": "WO2025128894A1",
+    "url": "https://patents.google.com/patent/WO2025128894A1/en",
+    "title": "Large language model verification",
+    "assignee": "AIble Inc.",
+    "pub_date": "2025-06-19",
+    "app_date": "",
+    "abstract": "Verifying large language model responses involves obtaining a query and its corresponding answer from a large language model. This conversational text is then fed into a second large language model, which translates the answer into first-order logic. The verification process uses an automated theorem prover. It checks the validity of this logic translation by determining the unsatisfiability of two scenarios: one where the negation of the logic translation and domain-specific logic formulas are combined, and another where the logic translation itself is combined with these formulas. Based on this analysis, the theorem prover ascertains whether the translated answer is valid, invalid, or neither. The final step is communicating this verification status through an appropriate output medium, such as a graphical user interface, a database, or a report, providing a structured and methodical approach to assessing the accuracy and reliability of language model responses.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "US12353469B1",
+    "url": "https://patents.google.com/patent/US12353469B1/en",
+    "title": "Verification and citation for language model outputs",
+    "assignee": "Autodesk, Inc.",
+    "pub_date": "2025-07-08",
+    "app_date": "",
+    "abstract": "A user provides a question to be answered from detailed, dense or otherwise complex documents to a processing system that converts the question to a structured query language query and generates an embedding from the question, augmented by temporal data, synopses, themes, or other relevant information or data. The embedding is compared to embeddings generated from documents of a knowledge base to identify documents that are relevant to the question, and to rank such documents for their relevance. Highly ranking documents are combined with the query and provided to a language model that returns an answer to the question. A source for the answer is identified in at least one of the documents. The answer and the identified documents are presented to the user.",
+    "claim1": "1. A system operating on a provider network, wherein the system comprises: one or more computer processors;",
+    "status": 200
+  },
+  {
+    "num": "US20250077777A1",
+    "url": "https://patents.google.com/patent/US20250077777A1/en",
+    "title": "Semantic aware hallucination detection for large language models",
+    "assignee": "Bitvore Corp.",
+    "pub_date": "2025-03-06",
+    "app_date": "",
+    "abstract": "Systems and methods are disclosed for detecting hallucinations in large language models (LLMs). An example method includes receiving a first prompt for submission to the first LLM, generating, using the first LLM, a plurality of semantically equivalent prompts to the first prompt, generating, using the first LLM, a first response to the first prompt and a plurality of second responses to the plurality of semantically equivalent prompts, generating, using a second LLM, a plurality of third responses to the semantically equivalent prompts, generating a semantic consistency score for the first response based at least in part on the first prompt, the plurality of semantically equivalent prompts, the plurality of second responses, and the plurality of third responses, and determining whether or not the first response is an accurate response to the first prompt based at least in part on the semantic consistency score.",
+    "claim1": "1 . A computer-implemented method for identifying hallucinations in responses generated by a first large language model (LLM), the method performed by a computing device coupled to the first LLM and comprising: receiving a first prompt for submission to the first LLM;",
+    "status": 200
+  },
+  {
+    "num": "US20250094866A1",
+    "url": "https://patents.google.com/patent/US20250094866A1/en",
+    "title": "Responding to hallucinations in generative large language models",
+    "assignee": "Unlikely Artificial Intelligence Limited",
+    "pub_date": "2025-03-20",
+    "app_date": "",
+    "abstract": "Techniques for correcting hallucinations produced by generative large language models (LLMs). In one technique, a computing system accesses first output generated by an LLM. The computing system identifies, within the first output, a plurality of assertions. The computing system determines that a first assertion in the plurality of assertions is false. The computing system generates a prompt that indicates that the first assertion is false. The computing system submits the prompt as input to the LLM. The computing system accesses second output that is generated by the LLM, where the second output includes a second assertion that is different than the first assertion and corresponds to the first assertion.",
+    "claim1": "1 . A method comprising: accessing, by a computing system, first output generated by a large language model (LLM);",
+    "status": 200
+  },
+  {
+    "num": "WO2025059626A1",
+    "url": "https://patents.google.com/patent/WO2025059626A1/en",
+    "title": "Responding to hallucinations in generative large language models",
+    "assignee": "浙江蚂蚁密算科技有限公司",
+    "pub_date": "2025-03-20",
+    "app_date": "",
+    "abstract": "Techniques for correcting hallucinations produced by generative large language models (LLMs). In one technique, a computing system accesses first output generated by an LLM. The computing system identifies, within the first output, a plurality of assertions. The computing system determines that a first assertion in the plurality of assertions is false. The computing system generates a prompt that indicates that the first assertion is false. The computing system submits the prompt as input to the LLM. The computing system accesses second output that is generated by the LLM, where the second output includes a second assertion that is different than the first assertion and corresponds to the first assertion.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "US20240419912A1",
+    "url": "https://patents.google.com/patent/US20240419912A1/en",
+    "title": "Detecting hallucination in a language model",
+    "assignee": "T-Mobile Innovations Llc",
+    "pub_date": "2024-12-19",
+    "app_date": "",
+    "abstract": "Various embodiments discussed herein are directed to improving existing technologies by detecting a likelihood of hallucination arising from one-shot, few-shot, or outside knowledge contexts. For example, regarding the one-shot or few-shot contexts, some embodiments determine a set of tokens in a language model output that are not found in target content but are found in at least one example. When such phrases are not very common words, this is highly indicative that the model is hallucinating because these phrases should be located in the target content but are not, but are instead located in the examples.",
+    "claim1": "1 . A system comprising: at least one computer processor; and",
+    "status": 200
+  },
+  {
+    "num": "US20240394512A1",
+    "url": "https://patents.google.com/patent/US20240394512A1/en",
+    "title": "Hallucination Detection",
+    "assignee": "Promoted.ai, Inc.",
+    "pub_date": "2024-11-28",
+    "app_date": "",
+    "abstract": "A computer implemented method of detecting hallucination in a large language model (LLM) output. A message is received. A prompt is generated for an LLM including the message and an instruction to generate an output identifying predetermined content in the message. The prompt is passed through an LLM to generate the output. The output is processed in accordance with a hallucination detection process to identify if any predetermined content identified by the LLM in the output is potentially hallucinated.",
+    "claim1": "1 . A computer implemented method of detecting hallucination in a large language model (LLM) output, said method comprising the steps of: receiving a message;",
+    "status": 200
+  },
+  {
+    "num": "US20240378400A1",
+    "url": "https://patents.google.com/patent/US20240378400A1/en",
+    "title": "Hallucination prevention for natural language insights",
+    "assignee": "Noblis, Inc.",
+    "pub_date": "2024-11-14",
+    "app_date": "",
+    "abstract": "Methods and systems are provided for hallucination prevention for natural language insights. In embodiments described herein, a template-based insight with a set of facts is generated by a template-based insights engine. The set of facts are generated from a set of data and the template-based insight is generated based on a text template. A natural language insight is generated from the template-based insight through a language model. If a threshold number of facts of the template-based insight are missing from the natural language insight as determined by a hallucination gatekeeper engine then a new natural language insight is generated from the template-based insight through the language model.",
+    "claim1": "1 . A computer-implemented method comprising: generating, by a template-based insights engine, a template-based insight with a set of facts from a set of data, the template-based insight being generated in text form based on a text template;",
+    "status": 200
+  },
+  {
+    "num": "US20250165890A1",
+    "url": "https://patents.google.com/patent/US20250165890A1/en",
+    "title": "Automated software development workflows via multi-agent computational framework",
+    "assignee": "Sap Se",
+    "pub_date": "2025-05-22",
+    "app_date": "",
+    "abstract": "The disclosure presents a multi-agent AI system utilizing specialized Large Language Models (LLMs) to automate and enhance software development workflows. This system integrates a memory-augmented generative pre-trained transformer (MemGPT) agent for dynamic context management, a Critic Agent for semi-adversarial quality feedback, and other specialized agents for task delegation and execution. The MemGPT agent interacts with an embedding storage to manage extended contextual information, enabling the system to handle complex software projects with enhanced accuracy and efficiency. This innovative approach significantly reduces manual intervention, streamlines the development process, and improves software quality, offering a robust solution to the challenges of modern software development environments.",
+    "claim1": "1 . A computer-implemented system using an agent-based framework for automating software development workflows, the system comprising: a memory-augmented generative pre-trained transformer (MemGPT) agent configured to dynamically manage extended context by interacting with an embedding storage to retrieve and store data representations;",
+    "status": 200
+  },
+  {
+    "num": "WO2024243265A1",
+    "url": "https://patents.google.com/patent/WO2024243265A1/en",
+    "title": "Generative artificial intelligence",
+    "assignee": "四川乐为科技有限公司",
+    "pub_date": "2024-11-28",
+    "app_date": "",
+    "abstract": "Methods, systems, and apparatus, including computer programs encoded on a computer storage medium, for generating digital components. A prompt that includes a query and a set of constraints that limit clauses generated by a language model is generated. The set of constraints includes a summary of a specified source of online content. Multiple candidate digital components are generated using clauses generated by the language model using the summary of the specified source of online content. One or more post-processing operations that evaluate one or more characteristics of the multiple candidate digital components are performed. Each of the multiple candidate digital components are ranked based on the post-processing operations. At least one output digital component that is in a set of highest ranked candidate digital components is served.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "WO2024254203A2",
+    "url": "https://patents.google.com/patent/WO2024254203A2/en",
+    "title": "Value-based large language model teaming",
+    "assignee": "Intuit Inc.",
+    "pub_date": "2024-12-12",
+    "app_date": "",
+    "abstract": "Systems and techniques for content editing are described. In some examples, a content processing system receives content, for instance from a user interface, a creator large language model (LLM), or an editor LLM. The content processing system provides a prompt to a critic LLM that is configured to use the prompt to critique the content according to rule(s) to generate critique(s) of the content. The prompt includes the content and identifies rule(s) that the critic LLM is to critique the content according to. The content processing system receives the critique(s) of the content from the critic LLM. The content processing system provides a second prompt to an editor LLM that is configured to use the second prompt to edit the content according to the critique(s) to generate edited content. The second prompt includes the content and the critique(s). The content processing system receives the edited content from the editor LLM.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "CN119493841A",
+    "url": "https://patents.google.com/patent/CN119493841A/en",
+    "title": "Hallucination Detection and Handling for Domain-Specific Dialogue Systems Based on Large Language Models",
+    "assignee": "Robert Bosch Gmbh",
+    "pub_date": "2025-02-21",
+    "app_date": "",
+    "abstract": "The present disclosure relates to the detection and processing of hallucinations for domain-specific dialog systems based on large language models. Systems and methods for detecting and reducing hallucinations and improving the reliability of LLM-based QA systems are described herein. In particular, the present disclosure provides a set of illusion detection and processing methods that address different types of illusions of a QA system. The illusion detection method described herein includes comparing natural language answers to context information by means of sentence similarity estimation and keyword matching. The illusion processing methods described herein include removing an illusion sentence from a natural language answer or regenerating the natural language answer using better context information depending on the level of illusion detected in the natural language answer. A hybrid framework is also provided that systematically combines the illusion detection method and the illusion processing method into one system to achieve optimal illusion reduction performance for QA systems.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "CN119961628A",
+    "url": "https://patents.google.com/patent/CN119961628A/en",
+    "title": "Model hallucination detection method and device, storage medium and electronic device",
+    "assignee": "浙江蚂蚁密算科技有限公司",
+    "pub_date": "2025-05-09",
+    "app_date": "",
+    "abstract": "The present application discloses a detection method and device for model hallucination, a storage medium and an electronic device. The method comprises: inputting problem data into a target large model, determining a first output feature and a second output feature, wherein the first output feature represents a hidden state output feature of an intermediate layer of the target large model, and the second output feature represents an output feature obtained by concatenating the output features of M attention heads of the target large model; inputting the first output feature into a first classifier to obtain a first detection sub-result, and inputting the second output feature into a second classifier to obtain a second detection sub-result; when both the first detection sub-result and the second detection sub-result indicate that the target large model has model hallucination, generating a hallucination prompt message, wherein the hallucination prompt message indicates that the model parameters of the target large model need to be adjusted. The present application solves the technical problem of low detection efficiency of model hallucination.",
+    "claim1": "1. A method for detecting a model illusion, comprising:",
+    "status": 200
+  },
+  {
+    "num": "CN117931983A",
+    "url": "https://patents.google.com/patent/CN117931983A/en",
+    "title": "A method and system for generating accurate answers using a large model",
+    "assignee": "中科星图数字地球合肥有限公司",
+    "pub_date": "2024-04-26",
+    "app_date": "",
+    "abstract": "The invention discloses a method and a system for generating an accurate answer by using a large model, which relate to the technical field of natural language processing, and the method for generating the accurate answer by using the large model comprises the following steps: preprocessing texts in different source fields; importing the preprocessed text into an elastic search through a structure of an ES index map defined when an ES index is created; constructing a LANGCHAIN-based custom retrieval tool; returning a related document; embedding the processed text into a pre-designed template frame; the large model generates the final answer of the user question according to the external information in the prompt. According to the invention, by providing the information of the external text library, the large model can acquire more knowledge, especially the latest information, so that the illusion problem of the large model is relieved, the output quality of the large model is improved, and the large model is better in field problem by combining the external text library of the field.",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "CN117216205A",
+    "url": "https://patents.google.com/patent/CN117216205A/en",
+    "title": "Method, device, system and medium for constructing question-answer library by large language model",
+    "assignee": "湖北公众信息产业有限责任公司",
+    "pub_date": "2023-12-12",
+    "app_date": "",
+    "abstract": "The present disclosure provides a method, device, system and medium for building a question and answer library using a large language model, and relates to the technical field of natural language processing. The method includes obtaining an unstructured document; converting the unstructured document into a title and paragraph group according to a predefined question and answer data format; the question and answer data format includes a triplet of title, paragraph and question and answer pair, and the title refers to the unstructured document The title or title path of the independent topic module in Input the title and paragraph groups, obtain the question and answer pairs corresponding to each title and paragraph group, and form a question and answer library, in which the prompt template is used to guide the large language model to generate target text based on the context. Using the method of constructing a question and answer library in this disclosure, the question and answer library can be formed efficiently while reducing labor costs.",
+    "claim1": "1. A method for building a question-answering library using a large language model, the method comprising:",
+    "status": 200
+  },
+  {
+    "num": "CN117076607A",
+    "url": "https://patents.google.com/patent/CN117076607A/en",
+    "title": "Method, device and query system for establishing logical expressions using large language models",
+    "assignee": "山东和信智能科技有限公司",
+    "pub_date": "2023-11-17",
+    "app_date": "",
+    "abstract": "The present disclosure provides a method, an apparatus and a query system for building a logic expression by using a large language model, which relate to the technical field of natural language processing, and include: detecting the training type of the large language model; if the training type is that continuous training is completed, inputting a natural language text describing a logic expression into the large language model, and obtaining a logic expression corresponding to the natural language text output by the large language model; continuing training includes reinforcement learning a fine tuning model derived from the large language model for generating the predictive expression and a reward model for scoring the predictive expression to update parameters of the fine tuning model. By adopting the method for establishing the logic expression in the method, the logic expression corresponding to the natural language text can be automatically obtained, the method is efficient and convenient, the processing efficiency is greatly improved, meanwhile, manual participation is not needed, and the labor cost is greatly reduced.",
+    "claim1": "1. A method for building a logical expression for a large language model, the method comprising:",
+    "status": 200
+  },
+  {
+    "num": "CN118863098B",
+    "url": "https://patents.google.com/patent/CN118863098B/en",
+    "title": "Large model combination system crossing knowledge field",
+    "assignee": "清华大学",
+    "pub_date": "2024-10-29",
+    "app_date": "",
+    "abstract": "The invention belongs to the related technical field of artificial intelligence, and discloses a large model combination system crossing the field of knowledge, which comprises an intelligent body definition, an intelligent body selection, a main large model, at least two secondary large models and an intelligent body inspection, wherein the intelligent body definition manages the field keywords of all the current large models, invokes the main large model to inspect whether the field matched with the problem exists or not, and transmits the inspection result to the intelligent body selection; selecting a large model by the intelligent agent according to the examination result: when the adaptive field does not exist, invoking a main-level large model to process the questions input by the user and generate answers; when the adaptation field exists, calling a large model of the adaptation field to process the problem of the user and generating an answer; checking the correctness of the answer generated by the large model by the intelligent agent, and calling the corresponding large model to regenerate the result when the answer does not meet the requirement. Based on the system, the ",
+    "claim1": "",
+    "status": 200
+  },
+  {
+    "num": "CN119829038B",
+    "url": "https://patents.google.com/patent/CN119829038B/en",
+    "title": "Code generation method, system and electronic device based on heterogeneous multi-agent collaboration",
+    "assignee": "苏州元脑智能科技有限公司",
+    "pub_date": "2025-04-15",
+    "app_date": "",
+    "abstract": "This application relates to a code generation method, system, and electronic device based on heterogeneous multi-agent collaboration. The method incorporates a specialized critic agent instantiated as a heterogeneous large language model into the multi-agent collaboration process. The critic agent verifies the consistency and feasibility of the requirements document provided by the analyst agent, and proposes modification suggestions at an early stage. This allows deviations and problems to be discovered early in the task, reducing the cost and complexity of later revisions and improving the robustness and reliability of the code. This ensures that the generated results maintain a high level of correctness even in extreme situations or specific boundary conditions. This method has practical significance for improving software development efficiency, reducing project risks, and enhancing the quality of intelligent automation solutions.",
+    "claim1": "1. A code generation method based on heterogeneous multi-agent cooperation is characterized in that an analyst agent, a programmer agent and a tester agent are instantiated by adopting a homogeneous large language model, a commenter agent is instantiated by adopting a heterogeneous large language model, and the method comprises the following steps:",
+    "status": 200
+  },
+  {
+    "num": "US20240289561A1",
+    "url": "https://patents.google.com/patent/US20240289561A1/en",
+    "title": "Large language model artificial intelligence text evaluation system",
+    "assignee": "Microsoft Technology Licensing, Llc",
+    "pub_date": "2024-08-29",
+    "app_date": "",
+    "abstract": "Relevance scores may be determined based on text included in a document. The text may be divided into a text portions, with the relevance scores being determined based on a comparison of a text portion of the plurality of text portions with a criterion specified in natural language. A subset of the plurality of text portions may be selected based on the plurality of relevance scores, with each of the subset of the plurality of text portions having a relevance score surpassing a threshold. A criteria evaluation prompt may be sent to a remote text generation modeling system via a communication interface. The criteria evaluation prompts may include an instruction to evaluate one or more of the subset of text portions against the criterion.",
+    "claim1": "1 . A method comprising: selecting via a processor a subset of a plurality of text portions included in a document based on a comparison of a respective text portion of the plurality of text portions with one or more criteria specified in natural language;",
+    "status": 200
+  }
+]
