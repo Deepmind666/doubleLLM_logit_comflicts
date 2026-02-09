@@ -30,6 +30,7 @@ python main.py "your question" --allow-mock-fallback
 
 ```bash
 cd dual_model_divergence_project
+python -m unittest tests.test_basic_flow -v
 python -m unittest tests.test_stage2_cases_unittest -v
 ```
 
@@ -40,11 +41,14 @@ cd dual_model_divergence_project
 python run_test_cases.py
 ```
 
-If `pytest` is installed, you can also run:
+Run benchmark experiment (generates metrics report):
 
 ```bash
-pytest -q
+cd dual_model_divergence_project
+python experiments/run_benchmark.py
 ```
+
+Output report: `dual_model_divergence_project/experiments/benchmark_report.md`
 
 ## Environment Variables (for real API mode)
 
@@ -56,3 +60,10 @@ pytest -q
   - `EVIDENCE_CATALOG_PATH` (override evidence catalog path)
 
 Fallback to mock responses is disabled by default unless `--allow-mock-fallback` is set.
+
+## Notes on cache behavior
+
+- Cache is mode-aware:
+  - `mode=mock` only reused in mock mode
+  - `mode=live` only reused in live mode
+- Fallback responses are stored as `mode=fallback_mock` for audit and are not reused as live cache.

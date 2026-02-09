@@ -1,44 +1,47 @@
-# Stage-2 Test Cases
+# Test Cases
 
-## Case 1: L1 evidence can auto-adjudicate
-
-- Command:
-```bash
-python main.py "X技术专利申请年份是多少？" --mock --enable-evidence --no-cache
-```
-- Expected:
-1. Output includes `year_conflict_X技术`.
-2. Output includes `采用模型B结论`.
-3. Database `evidence` row has `verdict=B`, `source_tier=L1`, `auto_applied=1`.
-
-## Case 2: L3-only evidence must not auto-adjudicate
+## Case 1: Basic flow regression (unittest)
 
 - Command:
 ```bash
-python -m unittest tests.test_stage2_cases_unittest.Stage2SecurityAndEvidenceTests.test_l3_only_should_not_auto_apply -v
+python -m unittest tests.test_basic_flow -v
 ```
 - Expected:
-1. Test passes.
-2. Verdict remains `unknown`.
-3. `auto_applied=False`.
+1. Year conflict detection works.
+2. Mock pipeline writes query/response/fused records into SQLite.
+3. Empty question is rejected with `ValueError`.
 
-## Case 3: API failure must not silently fallback (strict mode)
-
-- Command:
-```bash
-python -m unittest tests.test_stage2_cases_unittest.Stage2SecurityAndEvidenceTests.test_api_failure_without_fallback_raises -v
-```
-- Expected:
-1. Test passes.
-2. `RuntimeError` is raised when API call fails and fallback is not allowed.
-
-## Case 4: Full stage-2 regression
+## Case 2: Stage-2 evidence gating regression
 
 - Command:
 ```bash
 python -m unittest tests.test_stage2_cases_unittest -v
 ```
 - Expected:
-1. All tests pass.
-2. No DB file lock errors on Windows cleanup.
+1. L1 evidence can auto-adjudicate.
+2. L3-only evidence remains unresolved (`unknown`).
+3. API failure raises in strict mode (no silent fallback).
+4. Integer year evidence (e.g. `2018`) is handled correctly.
+5. Mock/live cache entries are isolated by response mode.
 
+## Case 3: Benchmark experiment
+
+- Command:
+```bash
+python experiments/run_benchmark.py
+```
+- Expected:
+1. Benchmark cases pass.
+2. Report generated at `experiments/benchmark_report.md`.
+3. Report includes case-level pass/fail and aggregate metrics.
+
+## Case 4: One-shot full validation
+
+- Command:
+```bash
+python run_test_cases.py
+```
+- Expected:
+1. Basic flow tests pass.
+2. Stage-2 tests pass.
+3. Benchmark experiment runs and writes report.

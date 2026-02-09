@@ -106,19 +106,39 @@ class DatabaseManager:
             )
             return int(cur.lastrowid)
 
-    def get_cached_response(self, question_text: str, model_name: str) -> Optional[str]:
+    def get_cached_response(
+        self,
+        question_text: str,
+        model_name: str,
+        response_mode: Optional[str] = None,
+    ) -> Optional[str]:
         with self._connect() as conn:
-            row = conn.execute(
-                """
-                SELECT mr.response_text
-                FROM model_responses mr
-                JOIN queries q ON q.id = mr.query_id
-                WHERE q.question_text = ? AND mr.model_name = ?
-                ORDER BY mr.id DESC
-                LIMIT 1
-                """,
-                (question_text, model_name),
-            ).fetchone()
+            if response_mode:
+                row = conn.execute(
+                    """
+                    SELECT mr.response_text
+                    FROM model_responses mr
+                    JOIN queries q ON q.id = mr.query_id
+                    WHERE q.question_text = ?
+                      AND mr.model_name = ?
+                      AND mr.usage_info LIKE ?
+                    ORDER BY mr.id DESC
+                    LIMIT 1
+                    """,
+                    (question_text, model_name, f"mode={response_mode}%"),
+                ).fetchone()
+            else:
+                row = conn.execute(
+                    """
+                    SELECT mr.response_text
+                    FROM model_responses mr
+                    JOIN queries q ON q.id = mr.query_id
+                    WHERE q.question_text = ? AND mr.model_name = ?
+                    ORDER BY mr.id DESC
+                    LIMIT 1
+                    """,
+                    (question_text, model_name),
+                ).fetchone()
             return row[0] if row else None
 
     def save_response(self, query_id: int, model_name: str, response_text: str, usage_info: str = ""):

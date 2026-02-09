@@ -1,0 +1,116 @@
+[
+  {
+    "id": "pipeline_planet_no_conflict",
+    "kind": "pipeline",
+    "question": "Which is the largest planet in the solar system?",
+    "enable_evidence": true,
+    "expect": {
+      "conflict_count": 0,
+      "final_must_contain": [
+        "融合答案",
+        "木星"
+      ]
+    }
+  },
+  {
+    "id": "pipeline_patent_l1_adjudication",
+    "kind": "pipeline",
+    "question": "X技术专利申请年份是多少？",
+    "enable_evidence": true,
+    "expect": {
+      "conflict_count": 1,
+      "expected_verdicts": {
+        "year_conflict_X技术": "B"
+      },
+      "expected_auto_applied": {
+        "year_conflict_X技术": true
+      },
+      "final_must_contain": [
+        "year_conflict_X技术",
+        "采用模型B结论"
+      ]
+    }
+  },
+  {
+    "id": "pipeline_patent_without_evidence",
+    "kind": "pipeline",
+    "question": "X技术专利申请年份是多少？",
+    "enable_evidence": false,
+    "expect": {
+      "conflict_count": 1,
+      "final_must_contain": [
+        "year_conflict_X技术",
+        "暂无充分证据"
+      ]
+    }
+  },
+  {
+    "id": "evidence_l2_dual_source_auto_apply_a",
+    "kind": "evidence_only",
+    "conflicts": [
+      {
+        "conflict_id": "year_conflict_ExampleTech",
+        "type": "numeric_difference",
+        "subject": "ExampleTech",
+        "model_a_years": [
+          "2021"
+        ],
+        "model_b_years": [
+          "2020"
+        ]
+      }
+    ],
+    "expect": {
+      "expected_verdicts": {
+        "year_conflict_ExampleTech": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_ExampleTech": true
+      }
+    }
+  },
+  {
+    "id": "evidence_l3_should_remain_unknown",
+    "kind": "evidence_only",
+    "conflicts": [
+      {
+        "conflict_id": "year_conflict_CommunityCase",
+        "type": "numeric_difference",
+        "subject": "CommunityCase",
+        "model_a_years": [
+          "2020"
+        ],
+        "model_b_years": [
+          "2022"
+        ]
+      }
+    ],
+    "expect": {
+      "expected_verdicts": {
+        "year_conflict_CommunityCase": "unknown"
+      },
+      "expected_auto_applied": {
+        "year_conflict_CommunityCase": false
+      }
+    }
+  },
+  {
+    "id": "evidence_unsupported_type_unknown",
+    "kind": "evidence_only",
+    "conflicts": [
+      {
+        "conflict_id": "logic_conflict_X",
+        "type": "logic_difference",
+        "subject": "X技术"
+      }
+    ],
+    "expect": {
+      "expected_verdicts": {
+        "logic_conflict_X": "unknown"
+      },
+      "expected_auto_applied": {
+        "logic_conflict_X": false
+      }
+    }
+  }
+]

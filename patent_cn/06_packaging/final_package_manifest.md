@@ -66,3 +66,10 @@
 - `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`  
 - `dual_model_divergence_project/tests/TEST_CASES.md`  
 - `dual_model_divergence_project/run_test_cases.py`
+
+## I. 阶段3实验与回归增强
+
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/experiments/benchmark_cases.json`
+- `dual_model_divergence_project/experiments/run_benchmark.py`
+- `dual_model_divergence_project/experiments/benchmark_report.md`

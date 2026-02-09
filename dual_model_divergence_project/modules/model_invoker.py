@@ -76,13 +76,19 @@ def get_answers(
 ) -> Dict[str, str]:
     load_dotenv()
     result: Dict[str, str] = {}
+    cache_mode = "mock" if mock_mode else "live"
 
     for model_name in ["GPT", "Claude"]:
-        cached = db.get_cached_response(question, model_name) if use_cache else None
+        cached = (
+            db.get_cached_response(question, model_name, response_mode=cache_mode)
+            if use_cache
+            else None
+        )
         if cached:
             result[model_name] = cached
             continue
 
+        answer_mode = cache_mode
         if mock_mode:
             answer = _mock_answer(model_name, question)
         else:
@@ -96,12 +102,18 @@ def get_answers(
             except Exception as e:
                 if allow_mock_fallback:
                     answer = _mock_answer(model_name, question)
+                    answer_mode = "fallback_mock"
                 else:
                     raise RuntimeError(
                         f"{model_name} API call failed; set --allow-mock-fallback to continue in degraded mode."
                     ) from e
 
-        db.save_response(query_id=query_id, model_name=model_name, response_text=answer, usage_info="")
+        db.save_response(
+            query_id=query_id,
+            model_name=model_name,
+            response_text=answer,
+            usage_info=f"mode={answer_mode}",
+        )
         result[model_name] = answer
 
     return result

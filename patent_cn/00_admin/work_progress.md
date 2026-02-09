@@ -328,3 +328,50 @@
 - `dual_model_divergence_project/tests/TEST_CASES.md`
 - `dual_model_divergence_project/run_test_cases.py`
 - `dual_model_divergence_project/README.md`
+
+---
+
+## 2026-02-10 00:36:30 +08:00 | 阶段：漏洞复查闭环 + 实验基准落地（阶段3）
+
+### 本次完成
+- 处理中断遗留：恢复并重写 `tests/test_basic_flow.py` 为 `unittest` 版本，补回基础回归链路。
+- 完成高风险漏洞复查并修正：
+  1) 证据目录默认路径改为“相对项目根目录”，不再依赖当前工作目录。  
+  2) 证据年份统一字符串化，修复 `int/str` 混用导致的潜在裁决误判。  
+  3) 缓存增加模式隔离（`mode=mock/live/fallback_mock`），防止 mock 结果污染 live 模式。
+- 新增可量化实验体系：
+  - `experiments/benchmark_cases.json`（6个基准场景）
+  - `experiments/run_benchmark.py`（自动执行+指标汇总+报告落盘）
+  - `experiments/benchmark_report.md`（本次实跑结果）
+- 更新一键验证入口与文档：
+  - `run_test_cases.py` 统一执行基础测试、阶段2测试、benchmark
+  - `README.md`、`tests/TEST_CASES.md` 同步命令与预期结果
+- 实测结果：
+  - `python run_test_cases.py` 全通过
+  - Benchmark `6/6` 场景通过，`17/17` 检查项通过（冲突检测/裁决/自动应用均 100%）
+
+### 风险与修正动作
+- 风险：当前 benchmark 以 mock 数据和内置证据目录为主，仍属于工程验证集，不代表生产全量分布。
+- 修正：已设计 `benchmark_cases.json` 可扩展机制，下一阶段可接入真实样本集做分层评测。
+- 风险：缓存模式隔离依赖 `usage_info` 字段前缀约定，若后续改写此字段可能破坏兼容。
+- 修正：已在 README 明确缓存协议，并增加回归测试覆盖该行为。
+
+### 文件评审清单
+- 完整性：中断遗留缺口（被删测试文件）已补齐，实验目录与报告齐备。
+- 稳定性：路径解析与类型兼容问题已修复，回归测试全绿。
+- 可验证性：新增基准实验可重复运行并产出指标报告。
+- 可交接性：工作日志、清单与执行规范已同步更新。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/modules/evidence_retriever.py`
+- `dual_model_divergence_project/modules/database.py`
+- `dual_model_divergence_project/modules/model_invoker.py`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`
+- `dual_model_divergence_project/tests/TEST_CASES.md`
+- `dual_model_divergence_project/experiments/benchmark_cases.json`
+- `dual_model_divergence_project/experiments/run_benchmark.py`
+- `dual_model_divergence_project/experiments/benchmark_report.md`
+- `dual_model_divergence_project/run_test_cases.py`
+- `dual_model_divergence_project/README.md`
+- `patent_cn/00_admin/work_progress.md`

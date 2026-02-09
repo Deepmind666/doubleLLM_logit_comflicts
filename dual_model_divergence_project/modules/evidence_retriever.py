@@ -15,7 +15,8 @@ def _catalog_path() -> Path:
     env = os.getenv("EVIDENCE_CATALOG_PATH")
     if env:
         return Path(env)
-    return Path("data") / "evidence_catalog.json"
+    # Resolve default catalog path relative to project root, not CWD.
+    return Path(__file__).resolve().parents[1] / "data" / "evidence_catalog.json"
 
 
 def _load_catalog() -> List[Dict]:
@@ -32,8 +33,8 @@ def _load_catalog() -> List[Dict]:
 
 
 def _select_verdict(conflict: Dict, evidences: List[Dict]) -> Dict:
-    years_a = set(conflict.get("model_a_years", []))
-    years_b = set(conflict.get("model_b_years", []))
+    years_a = {str(y) for y in conflict.get("model_a_years", []) if str(y)}
+    years_b = {str(y) for y in conflict.get("model_b_years", []) if str(y)}
     if not years_a and not years_b:
         return {
             "verdict": "unknown",
@@ -57,7 +58,7 @@ def _select_verdict(conflict: Dict, evidences: List[Dict]) -> Dict:
 
     # Gate 1: any L1 can auto-apply.
     if by_tier.get("L1"):
-        selected_year = by_tier["L1"][0].get("year")
+        selected_year = str(by_tier["L1"][0].get("year", ""))
         selected_tier = "L1"
         auto_applied = True
     else:
@@ -142,4 +143,3 @@ def fetch_evidence(conflicts: List[Dict]) -> Dict[str, Dict]:
         evidences = norm_index.get(subject, [])
         result[cid] = _select_verdict(c, evidences)
     return result
-

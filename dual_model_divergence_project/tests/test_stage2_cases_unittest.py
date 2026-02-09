@@ -1,3 +1,4 @@
+import json
 import os
 import tempfile
 import unittest
@@ -67,7 +68,82 @@ class Stage2SecurityAndEvidenceTests(unittest.TestCase):
                         allow_mock_fallback=False,
                     )
 
+    def test_l1_integer_year_should_still_adjudicate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            catalog_file = Path(tmp) / "catalog.json"
+            catalog_file.write_text(
+                json.dumps(
+                    [
+                        {
+                            "subject": "X技术",
+                            "year": 2018,
+                            "source": "CNIPA mock",
+                            "tier": "L1",
+                        }
+                    ],
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            conflicts = [
+                {
+                    "conflict_id": "year_conflict_X技术",
+                    "type": "numeric_difference",
+                    "subject": "X技术",
+                    "model_a_years": ["2020"],
+                    "model_b_years": ["2018"],
+                }
+            ]
+            with mock.patch.dict(os.environ, {"EVIDENCE_CATALOG_PATH": str(catalog_file)}):
+                result = fetch_evidence(conflicts)
+            item = result["year_conflict_X技术"]
+            self.assertEqual(item["verdict"], "B")
+            self.assertEqual(item["source_tier"], "L1")
+            self.assertTrue(item["auto_applied"])
+
+    def test_cache_isolation_between_mock_and_live(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_file = Path(tmp) / "cache.db"
+            db = DatabaseManager(str(db_file))
+            db.init_db()
+            question = "Which is the largest planet in the solar system?"
+
+            qid1 = db.save_query(question)
+            mock_answers = get_answers(
+                question=question,
+                db=db,
+                query_id=qid1,
+                use_cache=False,
+                mock_mode=True,
+                allow_mock_fallback=False,
+            )
+            self.assertIn("木星", mock_answers["GPT"])
+
+            qid2 = db.save_query(question)
+            with mock.patch("modules.model_invoker._call_openai", return_value="LIVE GPT answer."), mock.patch(
+                "modules.model_invoker._call_anthropic", return_value="LIVE Claude answer."
+            ):
+                live_answers = get_answers(
+                    question=question,
+                    db=db,
+                    query_id=qid2,
+                    use_cache=True,
+                    mock_mode=False,
+                    allow_mock_fallback=False,
+                )
+
+            self.assertEqual(live_answers["GPT"], "LIVE GPT answer.")
+            self.assertEqual(live_answers["Claude"], "LIVE Claude answer.")
+
+            with db._connect() as conn:
+                rows = conn.execute(
+                    "SELECT usage_info FROM model_responses ORDER BY id ASC"
+                ).fetchall()
+            usages = [r[0] for r in rows]
+            self.assertIn("mode=mock", usages)
+            self.assertIn("mode=live", usages)
+
 
 if __name__ == "__main__":
     unittest.main()
-
