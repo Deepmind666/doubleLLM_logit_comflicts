@@ -8,8 +8,10 @@ python -m unittest tests.test_basic_flow -v
 ```
 - Expected:
 1. Year conflict detection works.
-2. Mock pipeline writes query/response/fused records into SQLite.
-3. Empty question is rejected with `ValueError`.
+2. Fuzzy consensus matching works for near-identical sentences.
+3. Omission and contradiction conflicts are detectable.
+4. Mock pipeline writes query/response/fused records into SQLite.
+5. Empty and overlong questions are rejected with `ValueError`.
 
 ## Case 2: Stage-2 evidence gating regression
 

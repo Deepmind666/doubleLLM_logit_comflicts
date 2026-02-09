@@ -419,3 +419,49 @@
 - `dual_model_divergence_project/README.md`
 - `dual_model_divergence_project/tests/TEST_CASES.md`
 - `patent_cn/00_admin/work_progress.md`
+
+---
+
+## 2026-02-10 01:16:02 +08:00 | 阶段：评审复核 + 算法主链路升级（阶段5）
+
+### 本次完成
+- 对 `.claude.md` 第三轮评审问题（#39~#60）执行可执行性复核，并形成处置文档：
+  - `patent_cn/00_admin/engineering_review_audit_2026-02-10.md`
+- 完成算法主链路升级：
+  1) `divergence_detector` 从“精确匹配”升级为“加权模糊匹配”  
+     - `match_score = 0.7*semantic + 0.2*rule + 0.1*position`
+  2) 新增冲突类型：`omission`、`contradiction`（保留 `numeric_difference`）
+  3) `decoupler` 增加子问题生成与依据片段抽取
+  4) `fusion_generator` 输出升级为四区：共识区/补充区/裁决区/待验证区
+  5) `main.py` 增加可选图谱冲突检测开关 `--enable-graph`
+  6) 修复默认 DB 路径依赖 cwd 的问题
+  7) `openai` SDK 下限提升至 `1.68.0` 以匹配 Responses API
+- 测试与实验回归：
+  - 新增基础测试：模糊共识、遗漏冲突、矛盾冲突、超长输入拦截
+  - 执行 `python run_test_cases.py` 全通过（基础/阶段2/阶段3/双benchmark）
+
+### 风险与修正动作
+- 风险：当前冲突类型虽扩展到3类，但仍未覆盖更复杂语义蕴含/定义边界冲突。
+- 修正：已将新增冲突类型设计为可扩展结构，后续可继续插入新判定器。
+- 风险：图谱冲突与文本冲突可能出现重复条目。
+- 修正：本阶段先以 `--enable-graph` 可选开关隔离影响，下一阶段加入去重策略。
+- 风险：provenance 追溯仍不够细粒度（段落级证据ID映射缺失）。
+- 修正：已在评审复核文档中列为下一阶段优先项。
+
+### 文件评审清单
+- 完整性：核心检测/解耦/融合/入口/依赖/测试均已同步更新。
+- 一致性：算法说明、测试说明、评审复核文档与实际代码行为一致。
+- 可验证性：新增回归测试已覆盖本轮核心改动点，且全量回归通过。
+- 可交接性：已形成“问题编号 -> 处置状态 -> 代码路径”的审计记录。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/modules/divergence_detector.py`
+- `dual_model_divergence_project/modules/decoupler.py`
+- `dual_model_divergence_project/modules/fusion_generator.py`
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/requirements.txt`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/README.md`
+- `dual_model_divergence_project/tests/TEST_CASES.md`
+- `patent_cn/00_admin/engineering_review_audit_2026-02-10.md`
+- `patent_cn/00_admin/work_progress.md`

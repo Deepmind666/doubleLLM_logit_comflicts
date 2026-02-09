@@ -9,6 +9,20 @@ This is a runnable scaffold for:
 5. Generating fused output
 6. Persisting all steps to SQLite
 
+## Current Algorithm Highlights
+
+- Weighted fuzzy matching for consensus mining:
+  - `match_score = 0.7 * semantic + 0.2 * rule + 0.1 * position`
+- Conflict types currently implemented:
+  - `numeric_difference`
+  - `omission`
+  - `contradiction`
+- Fusion output now uses four zones:
+  - `共识区`
+  - `补充区`
+  - `裁决区`
+  - `待验证区`
+
 ## Quick Start
 
 ```bash
@@ -17,6 +31,12 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python main.py "Which is the largest planet in the solar system?" --mock --enable-evidence
+```
+
+Optional graph contradiction analysis:
+
+```bash
+python main.py "your question" --mock --enable-graph
 ```
 
 Strict mode (default) raises an error on API failure.  

@@ -16,6 +16,28 @@ class BasicFlowTests(unittest.TestCase):
         self.assertEqual(diff["conflicts"][0]["type"], "numeric_difference")
         self.assertIn("X技术", diff["conflicts"][0]["conflict_id"])
 
+    def test_divergence_detector_fuzzy_consensus(self):
+        a = "太阳系中最大的行星是木星。"
+        b = "太阳系最大的行星是木星"
+        diff = compare_answers(a, b)
+        self.assertGreaterEqual(len(diff["consensus"]), 1)
+        self.assertEqual(len(diff["model_a_only"]), 0)
+        self.assertEqual(len(diff["model_b_only"]), 0)
+
+    def test_divergence_detector_omission_conflict(self):
+        a = "Autodesk patent filed in 2025."
+        b = "This system verifies language model outputs."
+        diff = compare_answers(a, b)
+        omission = [c for c in diff["conflicts"] if c.get("type") == "omission"]
+        self.assertTrue(omission, "Expected omission conflict when one side misses a subject-year claim.")
+
+    def test_divergence_detector_contradiction_conflict(self):
+        a = "该方案可离线执行。"
+        b = "该方案不可离线执行。"
+        diff = compare_answers(a, b)
+        contradiction = [c for c in diff["conflicts"] if c.get("type") == "contradiction"]
+        self.assertTrue(contradiction, "Expected contradiction conflict for opposite polarity statements.")
+
     def test_pipeline_mock_mode_persists_records(self):
         with tempfile.TemporaryDirectory() as tmp:
             db_file = Path(tmp) / "responses.db"
@@ -44,6 +66,19 @@ class BasicFlowTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 run_pipeline(
                     question="  ",
+                    db_path=str(db_file),
+                    mock_mode=True,
+                    use_cache=False,
+                    enable_evidence=False,
+                )
+
+    def test_pipeline_rejects_overlong_question(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_file = Path(tmp) / "responses.db"
+            too_long = "x" * 5001
+            with self.assertRaises(ValueError):
+                run_pipeline(
+                    question=too_long,
                     db_path=str(db_file),
                     mock_mode=True,
                     use_cache=False,

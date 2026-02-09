@@ -81,3 +81,13 @@
 - `dual_model_divergence_project/experiments/run_realworld_benchmark.py`
 - `dual_model_divergence_project/experiments/realworld_benchmark_report.md`
 - `dual_model_divergence_project/tests/test_stage3_realworld_benchmark_unittest.py`
+
+## K. 阶段5评审复核与算法升级
+
+- `dual_model_divergence_project/modules/divergence_detector.py`
+- `dual_model_divergence_project/modules/decoupler.py`
+- `dual_model_divergence_project/modules/fusion_generator.py`
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/requirements.txt`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `patent_cn/00_admin/engineering_review_audit_2026-02-10.md`

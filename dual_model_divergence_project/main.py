@@ -7,6 +7,7 @@ from modules.decoupler import restructure
 from modules.divergence_detector import compare_answers
 from modules.evidence_retriever import fetch_evidence
 from modules.fusion_generator import generate_fused_answer
+from modules.knowledge_graph import build_graph_from_text, compare_graphs
 from modules.model_invoker import get_answers
 
 
@@ -16,6 +17,7 @@ def run_pipeline(
     mock_mode: bool = False,
     use_cache: bool = True,
     enable_evidence: bool = False,
+    enable_graph: bool = False,
     allow_mock_fallback: bool = False,
 ) -> str:
     question = (question or "").strip()
@@ -42,6 +44,27 @@ def run_pipeline(
     claude_answer = answers["Claude"]
 
     diff_result = compare_answers(gpt_answer, claude_answer)
+    if enable_graph:
+        graph_a = build_graph_from_text(gpt_answer)
+        graph_b = build_graph_from_text(claude_answer)
+        graph_cmp = compare_graphs(graph_a, graph_b)
+        diff_result["graph_analysis"] = graph_cmp
+
+        for i, pair in enumerate(graph_cmp.get("contradictions", []), start=1):
+            subject = str(pair[0]) if isinstance(pair, tuple) and len(pair) >= 1 else f"graph_{i}"
+            obj = str(pair[1]) if isinstance(pair, tuple) and len(pair) >= 2 else ""
+            diff_result.setdefault("conflicts", []).append(
+                {
+                    "conflict_id": f"graph_contradiction_{subject}_{i}",
+                    "type": "contradiction",
+                    "subject": subject,
+                    "model_a_claim": f"{subject}是{obj}" if obj else subject,
+                    "model_b_claim": f"{subject}不是{obj}" if obj else subject,
+                    "description": "Contradiction detected by graph comparison.",
+                }
+            )
+        if graph_cmp.get("contradictions"):
+            diff_result["summary"] = f"{diff_result.get('summary', '')}，图谱冲突{len(graph_cmp['contradictions'])}项".strip("，")
     db.save_divergence(
         query_id=query_id,
         diff_summary=diff_result["summary"],
@@ -81,7 +104,7 @@ def run_pipeline(
     db.save_fused_answer(
         query_id=query_id,
         answer_text=final_answer,
-        notes="mock_mode=%s, evidence=%s" % (mock_mode, enable_evidence),
+        notes=f"mock_mode={mock_mode}, evidence={enable_evidence}, graph={enable_graph}",
     )
     return final_answer
 
@@ -91,7 +114,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("question", help="User question.")
     parser.add_argument(
         "--db-path",
-        default=str(Path("data") / "responses.db"),
+        default=str(Path(__file__).resolve().parent / "data" / "responses.db"),
         help="SQLite database path.",
     )
     parser.add_argument("--mock", action="store_true", help="Use mock answers instead of API calls.")
@@ -102,6 +125,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--no-cache", action="store_true", help="Disable cache lookup.")
     parser.add_argument("--enable-evidence", action="store_true", help="Enable evidence retrieval module.")
+    parser.add_argument("--enable-graph", action="store_true", help="Enable knowledge-graph contradiction analysis.")
     return parser
 
 
@@ -114,6 +138,7 @@ def main():
         mock_mode=args.mock,
         use_cache=not args.no_cache,
         enable_evidence=args.enable_evidence,
+        enable_graph=args.enable_graph,
         allow_mock_fallback=args.allow_mock_fallback,
     )
     print(result)
