@@ -242,3 +242,44 @@
 ### 本次新增/更新文件
 - `.gitignore`
 - `patent_cn/00_admin/work_progress.md`
+
+---
+
+## 2026-02-09 23:56:35 +08:00 | 阶段：工程骨架阶段1落地
+
+### 本次完成
+- 新建 `dual_model_divergence_project` 工程骨架，包含主流程、模块包、测试目录、README 与 requirements。
+- 实现模块：`model_invoker`、`divergence_detector`、`decoupler`、`fusion_generator`、`evidence_retriever`、`knowledge_graph`、`database`。
+- 完成 SQLite 建表逻辑与主流程串联，支持 `--mock` 与 `--enable-evidence`。
+- 修复环境依赖回退：`python-dotenv` 缺失时自动降级为 no-op，不阻断运行。
+- 完成烟雾测试（ASCII样例）：
+  - 年份冲突可识别
+  - 管线执行成功
+  - 数据库写入查询、回答、融合、证据记录
+
+### 风险与修正动作
+- 风险：当前环境未安装 `pytest`，无法直接执行自动化测试命令。
+- 修正：已执行等价烟雾测试脚本验证关键链路，后续可安装 `pytest` 后补回归测试。
+- 风险：中文参数在某些内联执行链路下有编码扰动。
+- 修正：mock触发逻辑增加英文关键词分支，确保跨终端稳定演示。
+
+### 文件评审清单
+- 完整性：阶段1工程骨架文件完整，结构符合新增方案目录预期。
+- 可实现性：主流程已可运行并输出融合答案。
+- 可测试性：已提供 `tests/test_basic_flow.py` 与可执行烟雾路径。
+- 可扩展性：已预留证据模块与知识图谱模块接口。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/modules/__init__.py`
+- `dual_model_divergence_project/modules/database.py`
+- `dual_model_divergence_project/modules/model_invoker.py`
+- `dual_model_divergence_project/modules/divergence_detector.py`
+- `dual_model_divergence_project/modules/decoupler.py`
+- `dual_model_divergence_project/modules/fusion_generator.py`
+- `dual_model_divergence_project/modules/evidence_retriever.py`
+- `dual_model_divergence_project/modules/knowledge_graph.py`
+- `dual_model_divergence_project/tests/__init__.py`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/README.md`
+- `dual_model_divergence_project/requirements.txt`

@@ -44,3 +44,17 @@
 - `patent_cn/00_admin/technical_scheme_review_2026-02-09.md`  
 - `patent_cn/02_invention_design/engineering_plan_v2.md`  
 - `patent_cn/00_admin/current_status_and_next_steps.md`
+
+## G. 工程骨架（阶段1）
+
+- `dual_model_divergence_project/main.py`  
+- `dual_model_divergence_project/modules/database.py`  
+- `dual_model_divergence_project/modules/model_invoker.py`  
+- `dual_model_divergence_project/modules/divergence_detector.py`  
+- `dual_model_divergence_project/modules/decoupler.py`  
+- `dual_model_divergence_project/modules/fusion_generator.py`  
+- `dual_model_divergence_project/modules/evidence_retriever.py`  
+- `dual_model_divergence_project/modules/knowledge_graph.py`  
+- `dual_model_divergence_project/tests/test_basic_flow.py`  
+- `dual_model_divergence_project/README.md`  
+- `dual_model_divergence_project/requirements.txt`
