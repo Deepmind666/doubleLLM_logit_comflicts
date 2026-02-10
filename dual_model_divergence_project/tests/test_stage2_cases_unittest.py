@@ -144,6 +144,17 @@ class Stage2SecurityAndEvidenceTests(unittest.TestCase):
             self.assertIn("mode=mock", usages)
             self.assertIn("mode=live", usages)
 
+    def test_cache_mode_query_should_use_exact_match(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_file = Path(tmp) / "cache_exact.db"
+            db = DatabaseManager(str(db_file))
+            db.init_db()
+            qid = db.save_query("Q")
+            db.save_response(qid, "GPT", "answer-from-mock-v2", usage_info="mode=mock_v2")
+
+            exact = db.get_cached_response("Q", "GPT", response_mode="mock")
+            self.assertIsNone(exact, "mode=mock must not match mode=mock_v2")
+
 
 if __name__ == "__main__":
     unittest.main()

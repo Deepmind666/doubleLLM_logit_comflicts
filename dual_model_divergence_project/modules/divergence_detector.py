@@ -14,11 +14,14 @@ NEGATION_PATTERNS = [
     r"\bnever\b",
     r"\bcannot\b",
     r"\bcan't\b",
+    r"\bisn't\b",
+    r"\baren't\b",
+    r"\bwon't\b",
     r"不是",
     r"并非",
+    r"不(?:是|会|能|可|应|要|对|好|行|利|宜)",
     r"不可",
     r"不能",
-    r"不",
     r"无",
     r"未",
     r"没有",
@@ -109,8 +112,19 @@ def _is_negation_contradiction(a: str, b: str) -> bool:
 
 
 def _extract_subject_hint(text: str) -> str:
+    m_pred = re.search(r"([A-Za-z0-9\u4e00-\u9fff_-]{1,40}?)(?:不是|是|拥有|用于|专利)", text)
+    if m_pred:
+        return m_pred.group(1)
     m = re.search(r"([A-Za-z0-9\u4e00-\u9fff_-]{2,40})", text)
     return m.group(1) if m else "UNKNOWN"
+
+
+def _normalize_subject_name(subject: str) -> str:
+    s = (subject or "").strip().strip("，,。.!！？?；;:：")
+    s = re.sub(r"(公司|集团|股份有限公司)$", "", s)
+    s = re.sub(r"的.*$", "", s)
+    s = re.sub(r"'s$", "", s, flags=re.I)
+    return s or subject
 
 
 def _extract_year_claims(sentences: List[str]) -> List[Dict]:
@@ -123,8 +137,38 @@ def _extract_year_claims(sentences: List[str]) -> List[Dict]:
         if m_cn:
             claims.append(
                 {
-                    "subject": m_cn.group("subject"),
+                    "subject": _normalize_subject_name(m_cn.group("subject")),
                     "year": m_cn.group("year"),
+                    "sentence": s,
+                    "sentence_index": idx,
+                }
+            )
+            continue
+
+        m_cn_alt1 = re.search(
+            r"(?P<subject>[A-Za-z0-9\u4e00-\u9fff_-]{1,40})(?:公司)?在(?P<year>19\d{2}|20\d{2})年(?:向[\u4e00-\u9fffA-Za-z0-9_-]{1,40})?(?:提交|递交|提出)(?:了)?(?:[\u4e00-\u9fffA-Za-z0-9_-]{0,20})专利(?:申请)?",
+            s,
+        )
+        if m_cn_alt1:
+            claims.append(
+                {
+                    "subject": _normalize_subject_name(m_cn_alt1.group("subject")),
+                    "year": m_cn_alt1.group("year"),
+                    "sentence": s,
+                    "sentence_index": idx,
+                }
+            )
+            continue
+
+        m_cn_alt2 = re.search(
+            r"(?P<subject>[A-Za-z0-9\u4e00-\u9fff_-]{1,40})(?:公司)?(?:的)?(?:[\u4e00-\u9fffA-Za-z0-9_-]{0,20})专利(?:是|为)?(?P<year>19\d{2}|20\d{2})年(?:申请|提交|公开)(?:的)?",
+            s,
+        )
+        if m_cn_alt2:
+            claims.append(
+                {
+                    "subject": _normalize_subject_name(m_cn_alt2.group("subject")),
+                    "year": m_cn_alt2.group("year"),
                     "sentence": s,
                     "sentence_index": idx,
                 }
@@ -139,7 +183,7 @@ def _extract_year_claims(sentences: List[str]) -> List[Dict]:
         if m_en:
             claims.append(
                 {
-                    "subject": m_en.group("subject"),
+                    "subject": _normalize_subject_name(m_en.group("subject")),
                     "year": m_en.group("year"),
                     "sentence": s,
                     "sentence_index": idx,

@@ -91,3 +91,14 @@
 - `dual_model_divergence_project/requirements.txt`
 - `dual_model_divergence_project/tests/test_basic_flow.py`
 - `patent_cn/00_admin/engineering_review_audit_2026-02-10.md`
+
+## L. 阶段7评审对比闭环（Claude Round 4）
+
+- `patent_cn/00_admin/claude_round4_diff_closure_2026-02-10.md`
+- `dual_model_divergence_project/modules/knowledge_graph.py`
+- `dual_model_divergence_project/modules/evidence_retriever.py`
+- `dual_model_divergence_project/modules/database.py`
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`
+- `dual_model_divergence_project/experiments/realworld_cases.json`
+- `dual_model_divergence_project/experiments/realworld_evidence_catalog.json`

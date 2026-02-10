@@ -121,11 +121,11 @@ class DatabaseManager:
                     JOIN queries q ON q.id = mr.query_id
                     WHERE q.question_text = ?
                       AND mr.model_name = ?
-                      AND mr.usage_info LIKE ?
+                      AND mr.usage_info = ?
                     ORDER BY mr.id DESC
                     LIMIT 1
                     """,
-                    (question_text, model_name, f"mode={response_mode}%"),
+                    (question_text, model_name, f"mode={response_mode}"),
                 ).fetchone()
             else:
                 row = conn.execute(

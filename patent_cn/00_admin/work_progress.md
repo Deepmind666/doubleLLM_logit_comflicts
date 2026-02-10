@@ -465,3 +465,81 @@
 - `dual_model_divergence_project/tests/TEST_CASES.md`
 - `patent_cn/00_admin/engineering_review_audit_2026-02-10.md`
 - `patent_cn/00_admin/work_progress.md`
+
+---
+
+## 2026-02-10 10:27:08 +08:00 | 阶段：自查漏洞与专利潜力评估（阶段6）
+
+### 本次完成
+- 执行全量自查回归：`python run_test_cases.py`，结果全通过。
+- 复核当前算法实现边界与风险，输出分级漏洞清单（P1/P2/P3）。
+- 完成专利潜力自评（技术新颖表达度、实现度、对齐度、验证度等维度）。
+- 生成可直接交付 Claude 4.6 的“严格代码审核清单”（A~K 分区）。
+- 明确下一轮任务：收到 Claude 新评审后，逐条建立“问题对照矩阵”并闭环。
+
+### 风险与修正动作
+- 风险：证据裁决仅覆盖 `numeric_difference`，与新增冲突类型能力不完全闭环。
+- 修正：已在清单中将该项列为 P1，要求下一轮优先扩展多类型裁决策略。
+- 风险：否定词规则存在误报风险，可能引入矛盾冲突假阳性。
+- 修正：已列入 P1，建议增加上下文约束与二次验证。
+- 风险：provenance/迭代收敛/预算调度尚未代码化完全实现。
+- 修正：已在专利潜力评估中明确标注，不做过度承诺。
+
+### 文件评审清单
+- 完整性：自查报告、审核清单、下一轮执行框架均已输出。
+- 可验证性：清单附可执行命令与判定点，便于第三方复核。
+- 可交接性：已给出 Claude 输出格式约束，减少评审歧义。
+- 合规性：明确区分“已实现能力”与“待实现能力”。
+
+### 本次新增/更新文件
+- `patent_cn/00_admin/self_audit_and_claude_checklist_2026-02-10.md`
+- `patent_cn/00_admin/work_progress.md`
+
+---
+
+## 2026-02-10 10:49:45 +08:00 | 阶段：Claude 第四轮对比修复闭环（阶段7）
+
+### 本次完成
+- 对 `.claude.md` 第四轮评审意见执行逐条对比与最小补丁落地（Patch 1~6）。
+- 完成6项独立修复：
+  1) 图谱抽取器支持“不是”关系，修复图谱矛盾检测死逻辑。  
+  2) 否定词规则精化，移除单字“不”粗匹配。  
+  3) realworld benchmark 新增中文自然表述用例（由7增至10）。  
+  4) `--enable-graph` 冲突注入前去重，避免与文本矛盾重复。  
+  5) `normalize_subject` 改为仅移除后缀“技术”。  
+  6) 缓存查询从 `LIKE` 改为精确 `=` 匹配。
+- 补充/增强测试：
+  - 图谱否定关系单测
+  - 否定词误报单测（“不断进化”）
+  - 图谱冲突去重单测
+  - 主题归一化单测
+  - 缓存精确匹配单测
+- 生成对比闭环文档：`claude_round4_diff_closure_2026-02-10.md`。
+- 全量回归通过：`python run_test_cases.py` 全绿；realworld benchmark `10/10`。
+
+### 风险与修正动作
+- 风险：`#68` 所述“遗留P1对齐差距”属于系统级差距，非单补丁可彻底消除。
+- 修正：本轮先完成可最小化补丁；下一轮进入多类型证据裁决与provenance补强。
+- 风险：中文自然表述虽已加入，但样本规模仍偏小。
+- 修正：已将 realworld 用例扩至10个；后续继续扩展为分层更大样本集。
+
+### 文件评审清单
+- 完整性：6个补丁点均有代码变更与对应验证。
+- 可验证性：新增单测均可直接复现审查问题。
+- 一致性：评审意见与代码处置形成一一映射矩阵。
+- 可交接性：已输出专门对比闭环文档供下一轮评审引用。
+
+### 本次新增/更新文件
+- `dual_model_divergence_project/modules/knowledge_graph.py`
+- `dual_model_divergence_project/modules/divergence_detector.py`
+- `dual_model_divergence_project/modules/evidence_retriever.py`
+- `dual_model_divergence_project/modules/database.py`
+- `dual_model_divergence_project/main.py`
+- `dual_model_divergence_project/tests/test_basic_flow.py`
+- `dual_model_divergence_project/tests/test_stage2_cases_unittest.py`
+- `dual_model_divergence_project/experiments/realworld_cases.json`
+- `dual_model_divergence_project/experiments/realworld_evidence_catalog.json`
+- `dual_model_divergence_project/experiments/benchmark_report.md`
+- `dual_model_divergence_project/experiments/realworld_benchmark_report.md`
+- `patent_cn/00_admin/claude_round4_diff_closure_2026-02-10.md`
+- `patent_cn/00_admin/work_progress.md`

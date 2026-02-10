@@ -1,10 +1,13 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from main import run_pipeline
 from modules.database import DatabaseManager
-from modules.divergence_detector import compare_answers
+from modules.divergence_detector import _has_negation, compare_answers
+from modules.evidence_retriever import _normalize_subject
+from modules.knowledge_graph import build_graph_from_text, compare_graphs
 
 
 class BasicFlowTests(unittest.TestCase):
@@ -37,6 +40,49 @@ class BasicFlowTests(unittest.TestCase):
         diff = compare_answers(a, b)
         contradiction = [c for c in diff["conflicts"] if c.get("type") == "contradiction"]
         self.assertTrue(contradiction, "Expected contradiction conflict for opposite polarity statements.")
+
+    def test_negation_pattern_should_not_match_non_negative_phrase(self):
+        self.assertFalse(_has_negation("该系统在不断进化"))
+        self.assertTrue(_has_negation("该系统不能离线执行"))
+
+    def test_graph_extractor_should_capture_negated_relation(self):
+        g_a = build_graph_from_text("太阳是恒星。")
+        g_b = build_graph_from_text("太阳不是恒星。")
+        cmp_result = compare_graphs(g_a, g_b)
+        self.assertIn(("太阳", "不是", "恒星"), g_b["edges"])
+        self.assertIn(("太阳", "恒星"), cmp_result["contradictions"])
+
+    def test_normalize_subject_should_only_strip_suffix_technology(self):
+        self.assertEqual(_normalize_subject("X技术"), "x")
+        self.assertEqual(_normalize_subject("生物技术标准"), "生物技术标准")
+
+    def test_pipeline_graph_conflict_should_be_deduplicated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_file = Path(tmp) / "responses.db"
+
+            with mock.patch(
+                "main.get_answers",
+                return_value={"GPT": "太阳是恒星。", "Claude": "太阳不是恒星。"},
+            ):
+                out = run_pipeline(
+                    question="graph contradiction check",
+                    db_path=str(db_file),
+                    mock_mode=False,
+                    use_cache=False,
+                    enable_evidence=False,
+                    enable_graph=True,
+                )
+
+            self.assertIn("待验证区", out)
+
+            db = DatabaseManager(str(db_file))
+            with db._connect() as conn:
+                row = conn.execute("SELECT diff_detail FROM divergences ORDER BY id DESC LIMIT 1").fetchone()
+            self.assertIsNotNone(row)
+            diff = row[0]
+            self.assertIn("graph_analysis", diff)
+            # ensure only one contradiction conflict line appears after graph + detector merge
+            self.assertEqual(diff.count("\"type\": \"contradiction\""), 1)
 
     def test_pipeline_mock_mode_persists_records(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -110,6 +110,72 @@
     }
   },
   {
+    "id": "rw_cn_l1_huawei_natural_phrase",
+    "source_ref": "CN_sample_huawei",
+    "tier_group": "L1",
+    "model_a_answer": "华为在2020年提交了专利申请。",
+    "model_b_answer": "华为专利是2018年申请的。",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_华为"
+      ],
+      "expected_verdicts": {
+        "year_conflict_华为": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_华为": true
+      },
+      "final_must_contain": [
+        "year_conflict_华为",
+        "采用模型A结论"
+      ]
+    }
+  },
+  {
+    "id": "rw_cn_l1_zte_submission_phrase",
+    "source_ref": "CN_sample_zte",
+    "tier_group": "L1",
+    "model_a_answer": "中兴公司在2019年向国家知识产权局提交了专利申请。",
+    "model_b_answer": "中兴专利是2017年申请的。",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_中兴"
+      ],
+      "expected_verdicts": {
+        "year_conflict_中兴": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_中兴": true
+      },
+      "final_must_contain": [
+        "year_conflict_中兴",
+        "采用模型A结论"
+      ]
+    }
+  },
+  {
+    "id": "rw_cn_l2_baidu_publication_phrase",
+    "source_ref": "CN_sample_baidu",
+    "tier_group": "L2",
+    "model_a_answer": "百度专利于2021年公开。",
+    "model_b_answer": "百度专利于2020年公开。",
+    "expect": {
+      "conflict_ids": [
+        "year_conflict_百度"
+      ],
+      "expected_verdicts": {
+        "year_conflict_百度": "A"
+      },
+      "expected_auto_applied": {
+        "year_conflict_百度": true
+      },
+      "final_must_contain": [
+        "year_conflict_百度",
+        "采用模型A结论"
+      ]
+    }
+  },
+  {
     "id": "rw_none_no_conflict_control",
     "source_ref": "US20250200392A1",
     "tier_group": "NONE",

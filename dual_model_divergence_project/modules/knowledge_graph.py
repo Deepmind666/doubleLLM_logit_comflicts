@@ -15,6 +15,7 @@ def build_graph_from_text(text: str) -> Dict[str, List]:
 
     sentences = [s.strip() for s in re.split(r"[。！？!?;\n]+", text) if s.strip()]
     patterns = [
+        (r"(.+?)不是(.+)", "不是"),
         (r"(.+?)是(.+)", "是"),
         (r"(.+?)拥有(.+)", "拥有"),
         (r"(.+?)用于(.+)", "用于"),
@@ -60,4 +61,3 @@ def compare_graphs(graph_a: Dict[str, List], graph_b: Dict[str, List]) -> Dict:
         "b_only_edges": sorted(list(edges_b - edges_a)),
         "contradictions": sorted(list(set(contradictions))),
     }
-

@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -8,7 +9,8 @@ TIER_RANK = {"L1": 3, "L2": 2, "L3": 1}
 
 
 def _normalize_subject(s: str) -> str:
-    return s.strip().lower().replace("技术", "").replace(" ", "")
+    cleaned = re.sub(r"技术$", "", s.strip().lower())
+    return cleaned.replace(" ", "")
 
 
 def _catalog_path() -> Path:

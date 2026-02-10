@@ -50,19 +50,41 @@ def run_pipeline(
         graph_cmp = compare_graphs(graph_a, graph_b)
         diff_result["graph_analysis"] = graph_cmp
 
+        def _sig(item):
+            if not isinstance(item, dict):
+                return None
+            ctype = str(item.get("type", "")).strip().lower()
+            claim_a = str(item.get("model_a_claim", "")).strip().lower()
+            claim_b = str(item.get("model_b_claim", "")).strip().lower()
+            return (ctype, claim_a, claim_b)
+
+        existing_signatures = set()
+        for c in diff_result.get("conflicts", []):
+            sig = _sig(c)
+            if sig:
+                existing_signatures.add(sig)
+
         for i, pair in enumerate(graph_cmp.get("contradictions", []), start=1):
             subject = str(pair[0]) if isinstance(pair, tuple) and len(pair) >= 1 else f"graph_{i}"
             obj = str(pair[1]) if isinstance(pair, tuple) and len(pair) >= 2 else ""
-            diff_result.setdefault("conflicts", []).append(
-                {
-                    "conflict_id": f"graph_contradiction_{subject}_{i}",
-                    "type": "contradiction",
-                    "subject": subject,
-                    "model_a_claim": f"{subject}是{obj}" if obj else subject,
-                    "model_b_claim": f"{subject}不是{obj}" if obj else subject,
-                    "description": "Contradiction detected by graph comparison.",
-                }
-            )
+            graph_conflict = {
+                "conflict_id": f"graph_contradiction_{subject}_{i}",
+                "type": "contradiction",
+                "subject": subject,
+                "model_a_claim": f"{subject}是{obj}" if obj else subject,
+                "model_b_claim": f"{subject}不是{obj}" if obj else subject,
+                "description": "Contradiction detected by graph comparison.",
+            }
+            sig = _sig(graph_conflict)
+            reverse_sig = (
+                sig[0],
+                sig[2],
+                sig[1],
+            ) if sig else None
+            if sig not in existing_signatures and reverse_sig not in existing_signatures:
+                diff_result.setdefault("conflicts", []).append(graph_conflict)
+                if sig:
+                    existing_signatures.add(sig)
         if graph_cmp.get("contradictions"):
             diff_result["summary"] = f"{diff_result.get('summary', '')}，图谱冲突{len(graph_cmp['contradictions'])}项".strip("，")
     db.save_divergence(

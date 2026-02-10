@@ -34,5 +34,29 @@
     "year": "2022",
     "source": "Community wiki page",
     "tier": "L3"
+  },
+  {
+    "subject": "华为",
+    "year": "2020",
+    "source": "CN patent publication summary",
+    "tier": "L1"
+  },
+  {
+    "subject": "中兴",
+    "year": "2019",
+    "source": "CNIPA filing digest",
+    "tier": "L1"
+  },
+  {
+    "subject": "百度",
+    "year": "2021",
+    "source": "CN publication record A",
+    "tier": "L2"
+  },
+  {
+    "subject": "百度",
+    "year": "2021",
+    "source": "CN publication record B",
+    "tier": "L2"
   }
 ]
